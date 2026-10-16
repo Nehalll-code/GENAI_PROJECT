@@ -1,0 +1,27 @@
+{
+  "hardware": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 186 Stepping 3, GenuineIntel",
+    "logical_cpus": 12,
+    "python": "3.13.5",
+    "tensorflow": "2.20.0-rc0",
+    "keras": "3.11.1",
+    "gpus_visible": [],
+    "device_used": "CPU"
+  },
+  "hyperparameters": {
+    "sequence_length": 20,
+    "embedding_dim": 100,
+    "rnn_units": 128,
+    "dropout": 0.2,
+    "optimizer": "Adam",
+    "learning_rate": 0.001,
+    "loss": "sparse_categorical_crossentropy",
+    "batch_size": 128,
+    "max_epochs": 30,
+    "early_stopping_patience": 4,
+    "random_seed": 42,
+    "vocabulary_size": 1496
+  },
+  "total_training_time_s": 514.76
+}

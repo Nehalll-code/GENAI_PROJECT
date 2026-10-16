@@ -1,0 +1,37 @@
+model,model_key,temperature,seed_index,seed_type,tokens_generated,distinct_1,distinct_2,repeated_4gram_rate,longest_token_run,corpus_bigram_overlap,corpus_trigram_overlap,sentences,mean_sentence_length
+Simple RNN,SimpleRNN,0.5,1,narration,60,0.6,0.9153,0.0,1,0.8644,0.5,3,19.33
+Simple RNN,SimpleRNN,0.5,2,action,60,0.5667,0.8136,0.1053,1,0.8814,0.6034,2,29.5
+Simple RNN,SimpleRNN,0.5,3,dialogue,60,0.5833,0.8814,0.0351,1,0.9153,0.5,3,19.0
+Simple RNN,SimpleRNN,1.0,1,narration,60,0.8167,0.9831,0.0,1,0.5932,0.1034,2,29.5
+Simple RNN,SimpleRNN,1.0,2,action,60,0.7333,1.0,0.0,1,0.5932,0.2414,5,11.2
+Simple RNN,SimpleRNN,1.0,3,dialogue,60,0.7833,0.9831,0.0,1,0.4915,0.1379,3,19.0
+Simple RNN,SimpleRNN,1.5,1,narration,60,0.9,1.0,0.0,1,0.2542,0.0172,4,14.25
+Simple RNN,SimpleRNN,1.5,2,action,60,0.9167,1.0,0.0,1,0.3051,0.0,2,29.5
+Simple RNN,SimpleRNN,1.5,3,dialogue,60,0.9167,1.0,0.0,1,0.2034,0.0,4,14.0
+Bidirectional RNN,BiRNN,0.5,1,narration,60,0.5667,0.9322,0.0,2,0.8983,0.4655,3,19.33
+Bidirectional RNN,BiRNN,0.5,2,action,60,0.5167,0.8475,0.0702,2,0.8814,0.5862,5,11.2
+Bidirectional RNN,BiRNN,0.5,3,dialogue,60,0.5667,0.8814,0.0,1,0.8305,0.4483,1,59.0
+Bidirectional RNN,BiRNN,1.0,1,narration,60,0.8,1.0,0.0,1,0.5763,0.1897,3,19.33
+Bidirectional RNN,BiRNN,1.0,2,action,60,0.6833,0.9831,0.0,1,0.7288,0.2069,6,9.17
+Bidirectional RNN,BiRNN,1.0,3,dialogue,60,0.7833,1.0,0.0,1,0.5254,0.1724,2,29.5
+Bidirectional RNN,BiRNN,1.5,1,narration,60,0.95,1.0,0.0,1,0.2542,0.0345,2,29.5
+Bidirectional RNN,BiRNN,1.5,2,action,60,0.85,1.0,0.0,2,0.2881,0.0,4,14.25
+Bidirectional RNN,BiRNN,1.5,3,dialogue,60,0.8833,1.0,0.0,1,0.2542,0.0,3,19.0
+LSTM,LSTM,0.5,1,narration,60,0.55,0.8475,0.0351,1,0.9831,0.569,5,11.2
+LSTM,LSTM,0.5,2,action,60,0.55,0.8475,0.0,2,0.9322,0.5172,5,11.2
+LSTM,LSTM,0.5,3,dialogue,60,0.5333,0.8305,0.0,1,0.9661,0.6552,5,11.2
+LSTM,LSTM,1.0,1,narration,60,0.7833,1.0,0.0,1,0.4915,0.1379,2,29.5
+LSTM,LSTM,1.0,2,action,60,0.7167,0.9831,0.0,1,0.7119,0.2586,4,14.25
+LSTM,LSTM,1.0,3,dialogue,60,0.8,1.0,0.0,1,0.5424,0.1379,2,29.5
+LSTM,LSTM,1.5,1,narration,60,0.95,1.0,0.0,1,0.3051,0.0172,3,19.33
+LSTM,LSTM,1.5,2,action,60,0.8167,1.0,0.0,1,0.3559,0.0517,4,14.25
+LSTM,LSTM,1.5,3,dialogue,60,0.9,1.0,0.0,1,0.2881,0.0345,4,14.0
+GRU,GRU,0.5,1,narration,60,0.5167,0.8136,0.0,1,0.9492,0.5517,3,19.33
+GRU,GRU,0.5,2,action,60,0.5167,0.8136,0.0,2,0.9153,0.5,1,60.0
+GRU,GRU,0.5,3,dialogue,60,0.6,0.8644,0.0,1,0.8644,0.4483,6,8.83
+GRU,GRU,1.0,1,narration,60,0.8,0.9831,0.0,1,0.6441,0.1724,1,60.0
+GRU,GRU,1.0,2,action,60,0.6833,0.9831,0.0,1,0.6441,0.2069,4,14.0
+GRU,GRU,1.0,3,dialogue,60,0.7667,0.9831,0.0,1,0.5085,0.069,4,14.0
+GRU,GRU,1.5,1,narration,60,0.9,1.0,0.0,1,0.2881,0.0172,7,7.71
+GRU,GRU,1.5,2,action,60,0.8333,1.0,0.0,2,0.4237,0.0345,3,19.33
+GRU,GRU,1.5,3,dialogue,60,0.8833,1.0,0.0,1,0.2881,0.0345,4,14.0

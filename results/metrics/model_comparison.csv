@@ -1,0 +1,5 @@
+model,model_key,total_parameters,epochs_run,best_epoch,training_time_s,time_per_epoch_s,train_loss,val_loss,test_loss,train_perplexity,val_perplexity,test_perplexity,train_accuracy,val_accuracy,test_accuracy,test_top5_accuracy,inference_ms_per_batch128
+Simple RNN,SimpleRNN,371896,16,12,72.92,4.56,3.7627,4.86,4.9361,43.06,129.02,139.22,0.2291,0.1676,0.1781,0.3757,70.14
+Bidirectional RNN,BiRNN,592696,11,7,66.72,6.07,3.6893,4.8913,4.9584,40.02,133.13,142.36,0.2372,0.173,0.1851,0.3795,128.38
+LSTM,LSTM,459832,20,16,238.69,11.93,3.9303,4.9204,4.9611,50.92,137.06,142.75,0.2103,0.1714,0.1877,0.3872,112.74
+GRU,GRU,430904,13,9,136.43,10.49,3.6867,4.7602,4.7953,39.91,116.77,120.94,0.242,0.1798,0.1941,0.4013,155.97

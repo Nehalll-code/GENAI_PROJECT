@@ -1,0 +1,11 @@
+# Versions below are the ones the reported results were actually produced with
+# (Windows 11, Python 3.13.5, CPU-only).
+tensorflow==2.20.0rc0
+keras==3.11.1
+numpy==2.3.2
+pandas==2.3.1
+matplotlib==3.10.5
+
+# Only needed to run the notebook
+notebook==7.4.4
+ipykernel==6.30.0

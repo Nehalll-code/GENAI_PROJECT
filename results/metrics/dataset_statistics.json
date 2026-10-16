@@ -1,0 +1,85 @@
+{
+  "dataset_name": "Alice's Adventures in Wonderland (Project Gutenberg eBook #11)",
+  "source_url": "https://www.gutenberg.org/cache/epub/11/pg11.txt",
+  "raw_file_characters": 167712,
+  "body_characters_after_boilerplate_removal": 147989,
+  "total_tokens": 31178,
+  "total_word_tokens_excluding_punctuation": 26685,
+  "unique_tokens_before_min_freq_filter": 2633,
+  "hapax_legomena_count": 1139,
+  "hapax_legomena_pct_of_vocab": 43.26,
+  "min_word_frequency": 2,
+  "final_vocabulary_size_incl_pad_unk": 1496,
+  "token_coverage_by_final_vocab_pct": 96.35,
+  "type_token_ratio": 0.08445,
+  "approx_sentence_count": 1640,
+  "mean_tokens_per_sentence": 19.01,
+  "sequence_length": 20,
+  "total_sequences": 31158,
+  "train_sequences": 24926,
+  "val_sequences": 3115,
+  "test_sequences": 3117,
+  "split_strategy": "contiguous 80/10/10 (no shuffling before split)",
+  "top_15_tokens": [
+    [
+      ",",
+      2427
+    ],
+    [
+      "the",
+      1642
+    ],
+    [
+      ".",
+      986
+    ],
+    [
+      "and",
+      872
+    ],
+    [
+      "to",
+      729
+    ],
+    [
+      "a",
+      632
+    ],
+    [
+      "she",
+      541
+    ],
+    [
+      "it",
+      530
+    ],
+    [
+      "of",
+      514
+    ],
+    [
+      "said",
+      462
+    ],
+    [
+      "!",
+      451
+    ],
+    [
+      "i",
+      410
+    ],
+    [
+      "alice",
+      386
+    ],
+    [
+      "in",
+      368
+    ],
+    [
+      "you",
+      365
+    ]
+  ]
+}
