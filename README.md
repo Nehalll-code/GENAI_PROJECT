@@ -7,7 +7,7 @@ A word-level autoregressive language model built four ways — **Simple RNN**, *
 quantitatively and qualitatively, and used to generate text at three sampling temperatures.
 
 Every number, table, figure and text sample in this repository was produced by executing the code here.
-Nothing is estimated or copied from elsewhere. The full run takes **8.6 minutes on a CPU**.
+Nothing is estimated or copied from elsewhere. The full run takes **8.5 minutes on a CPU**.
 
 ---
 
@@ -189,9 +189,12 @@ sample into `results/`, and prints the comparison. No GPU, no manual downloads, 
 ```
 ICT4403-Assignment2/
 ├── notebooks/autoregressive_text_generation.ipynb   executed notebook, outputs included
+├── submission/        the assignment submission document (.docx and .pdf)
 ├── src/
 │   ├── config.py      all hyper-parameters and paths in one place
 │   ├── data.py        download, clean, tokenise, vocabulary, input→target sequences
+│   ├── baselines.py   classical predictors on the same test split, for context
+│   ├── significance.py McNemar + bootstrap tests on the model differences
 │   ├── models.py      the four architectures
 │   ├── train.py       identical training loop per model, quantitative metrics
 │   ├── generate.py    temperature sampling + automatic text-quality measures
@@ -200,7 +203,10 @@ ICT4403-Assignment2/
 ├── data/raw/          the downloaded Gutenberg text (cached)
 └── results/
     ├── metrics/       dataset_statistics.json, model_comparison.csv, training_history.csv,
-    │                  generation_quality.csv, generation_quality_by_temperature.csv, run_info.json
+    │                  generation_quality.csv, generation_quality_by_temperature.csv,
+    │                  baselines.csv, reference_perplexities.csv,
+    │                  significance_tests.csv, significance_tests_loss.csv,
+    │                  bootstrap_intervals.csv, run_info.json
     ├── plots/         five figures (PNG)
     ├── samples/       generated_samples.md — all 36 generated passages
     ├── logs/          per-epoch CSV logs and architecture summaries
@@ -213,16 +219,16 @@ ICT4403-Assignment2/
 
 **Hardware and runtime.** Intel 12-logical-core CPU (Intel64 Family 6 Model 186), Windows 11,
 Python 3.13.5, TensorFlow 2.20.0-rc0 / Keras 3.11.1. **No GPU — CPU only.** All four models together
-trained in **514.8 seconds (8.6 minutes)**.
+trained in **511.6 seconds (8.5 minutes)**.
 
 ### Quantitative comparison (held-out test set)
 
 | Model | Parameters | Epochs (best) | Train time | s/epoch | Test loss | **Test perplexity** | **Top-1 acc** | Top-5 acc |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Simple RNN | 371,896 | 16 (12) | 72.9 s | 4.56 | 4.9361 | 139.22 | 17.81% | 37.57% |
-| Bidirectional RNN | 592,696 | 11 (7) | 66.7 s | 6.07 | 4.9584 | 142.36 | 18.51% | 37.95% |
-| LSTM | 459,832 | 20 (16) | 238.7 s | 11.93 | 4.9611 | 142.75 | 18.77% | 38.72% |
-| **GRU** | 430,904 | 13 (9) | 136.4 s | 10.49 | **4.7953** | **120.94** | **19.41%** | **40.13%** |
+| Simple RNN | 371,896 | 16 (12) | 75.9 s | 4.75 | 4.9361 | 139.22 | 17.81% | 37.57% |
+| Bidirectional RNN | 592,696 | 11 (7) | 66.7 s | 6.06 | 4.9584 | 142.36 | 18.51% | 37.95% |
+| LSTM | 459,832 | 20 (16) | 234.6 s | 11.73 | 4.9611 | 142.75 | 18.77% | 38.72% |
+| **GRU** | 430,904 | 13 (9) | 134.4 s | 10.34 | **4.7953** | **120.94** | **19.41%** | **40.13%** |
 
 *Perplexity = e^(cross-entropy): the effective number of equally likely words the model is choosing
 between at each step. A uniform guess over this vocabulary would score ≈ 1,496.*
@@ -232,6 +238,79 @@ between at each step. A uniform guess over this vocabulary would score ≈ 1,496
 ![Validation perplexity and accuracy](results/plots/perplexity_accuracy_curves.png)
 
 ![Test metrics](results/plots/test_metrics_comparison.png)
+
+### Is ~19% next-word accuracy any good?
+
+Taken alone those accuracy figures look low, so they need something to be measured against. Four classical
+predictors were scored on **exactly the same held-out positions** (`src/baselines.py`):
+
+| Predictor | Test top-1 accuracy |
+|---|---:|
+| Uniform random guess (1 in 1,496) | 0.067% |
+| Always predict the commonest token (`,`) | 8.44% |
+| Bigram — most likely word after the previous word | 17.58% |
+| Trigram with backoff | 16.88% |
+| **GRU (best neural model)** | **19.41%** |
+| *GRU, top-5* | *40.13%* |
+
+| Reference model | Test perplexity |
+|---|---:|
+| Uniform over the vocabulary | 1,496.0 |
+| Unigram (word frequency only) | 270.8 |
+| **GRU** | **120.94** |
+
+The GRU is **290× better than chance**, 2.3× the "always guess the commonest word" trick, and ahead of a
+bigram model — a genuinely strong classical baseline on a corpus this small. Note that the **trigram scores
+*worse* than the bigram** (16.88% vs 17.58%): 24,926 sequences cannot populate three-word contexts, and
+that sparsity is exactly the wall recurrent models are built to get past. On perplexity the margin is
+clearer still — the GRU cuts uniform uncertainty to roughly **one twelfth**, and to less than half the
+unigram model's 270.8.
+
+**Why accuracy cannot approach 90% here.** Next-word prediction is not a classification task with one
+correct answer. After a given word in this corpus the training data shows a **median of 48 distinct
+continuations** (mean 95.6). In `she said to ___`, the words *herself*, *alice* and *the* are all valid
+English and all occur in the book, but the model is scored correct only on the one word Carroll actually
+wrote. Much of the remaining error is irreducible ambiguity in language rather than model failure — which
+is exactly why language modelling is reported in perplexity. Training accuracy reached only 24.2%, well
+short of memorisation, confirming the ceiling is the task and not the fit.
+
+### Are the differences statistically real?
+
+Four similar-looking percentages invite the obvious objection — *is this a real difference, or noise?*
+All four models predict the **same** 3,117 held-out positions, so the results are **paired**, and
+`src/significance.py` tests them properly rather than eyeballing the gaps.
+
+**Perplexity — paired test on per-position cross-entropy:**
+
+| Comparison | Perplexity ratio | z | p-value | Significant |
+|---|---:|---:|---:|:--:|
+| GRU vs Simple RNN | GRU 15.1% better | 8.71 | < 0.000001 | ✅ |
+| GRU vs Bidirectional RNN | GRU 17.7% better | 9.92 | < 0.000001 | ✅ |
+| GRU vs LSTM | GRU 18.0% better | 11.69 | < 0.000001 | ✅ |
+| Simple RNN vs Bidirectional RNN | 2.2% | −1.33 | 0.185 | ❌ |
+| Simple RNN vs LSTM | 2.5% | −1.39 | 0.166 | ❌ |
+| Bidirectional RNN vs LSTM | 0.3% | −0.15 | 0.884 | ❌ |
+
+**Top-1 accuracy — McNemar's paired test:** only GRU vs Simple RNN reaches significance (p = 0.0028).
+The remaining pairs are too close to separate on 3,117 positions, and this report says so rather than
+treating every gap as meaningful.
+
+**Bootstrap 95% intervals** (2,000 resamples):
+
+| Model | Accuracy (95% CI) | Perplexity (95% CI) |
+|---|---|---|
+| Simple RNN | 17.81% [16.46, 19.15] | 139.22 [125.67, 155.36] |
+| Bidirectional RNN | 18.51% [17.16, 19.89] | 142.36 [128.09, 159.93] |
+| LSTM | 18.77% [17.36, 20.15] | 142.75 [126.84, 160.74] |
+| **GRU** | **19.41%** [18.00, 20.79] | **120.94** [108.23, 135.57] |
+
+> Note the marginal intervals above overlap, while the *paired* tests are decisive. That is not a
+> contradiction: most of the width of each marginal interval is the shared difficulty of the test passage,
+> which cancels once models are compared position by position. Comparing marginal intervals instead of
+> pairing is a common error and would have understated the evidence badly here.
+
+**The models therefore form two tiers, not a gradient:** the GRU, and everything else. That is a stronger
+and better-supported conclusion than a four-way ranking in which every gap is assumed to be real.
 
 ### Qualitative measures — made checkable
 
@@ -260,7 +339,7 @@ costing 43% less training time than the LSTM.
   20-word window backwards as well as forwards adds 60% more parameters and buys ~0.7 percentage points of
   accuracy over the Simple RNN while making perplexity slightly *worse*. It also overfits fastest — its
   best epoch is 7, the earliest of the four. On a 25k-sequence corpus, extra capacity is a liability.
-- **LSTM is the most expensive and not the most accurate.** It took 238.7 s — 3.3× the Simple RNN and 1.7×
+- **LSTM is the most expensive and not the most accurate.** It took 234.6 s — 3.1× the Simple RNN and 1.7×
   the GRU — ran the longest (20 epochs), and still finished *last* on perplexity (142.75). Its four gates
   are more machinery than 25k training sequences can constrain.
 - **GRU's two gates are the sweet spot.** Enough gating to carry information across the window, few enough
@@ -350,11 +429,15 @@ saturate, carry the comparison there.*
 same way from every direction:
 
 1. **Lowest test perplexity** — 120.94, a 13% improvement on the next best (139.22), the only model to
-   break 130.
-2. **Highest next-word accuracy** — 19.41% top-1 and 40.13% top-5, best of the four.
-3. **Best repetition behaviour** — the only model with zero repeated 4-grams at T = 0.5, the temperature
+   break 130, and less than half the unigram reference of 270.8.
+2. **Highest next-word accuracy** — 19.41% top-1 and 40.13% top-5, best of the four, and ahead of every
+   classical baseline including a bigram model (17.58%).
+3. **A statistically significant margin** — the GRU's perplexity advantage over each of the other three
+   is significant at p < 0.000001 on a paired test, while those three are indistinguishable from one
+   another. The models form two tiers, not a gradient.
+4. **Best repetition behaviour** — the only model with zero repeated 4-grams at T = 0.5, the temperature
    at which generated text is most readable.
-4. **Efficient** — 136.4 s to train, 43% less than the LSTM, which it beats on every quality measure.
+5. **Efficient** — 134.4 s to train, 43% less than the LSTM, which it beats on every quality measure.
 
 The broader lesson is that **capacity was not the binding constraint — data was.** The two models with the
 most parameters (Bidirectional RNN, 592,696; LSTM, 459,832) finished third and fourth on perplexity, while

@@ -1,0 +1,5 @@
+predictor,test_accuracy_pct,note
+Uniform random guess,0.067,1 in 1496
+Always the commonest token,8.438,"always predicts ','"
+Bigram (most likely next word),17.581,conditions on the previous word only
+Trigram with backoff,16.875,sparser contexts; backs off to the bigram

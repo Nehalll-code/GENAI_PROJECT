@@ -1,0 +1,5 @@
+model,accuracy_pct,accuracy_ci_low,accuracy_ci_high,perplexity,perplexity_ci_low,perplexity_ci_high
+Simple RNN,17.81,16.46,19.15,139.22,125.67,155.36
+Bidirectional RNN,18.51,17.16,19.89,142.36,128.09,159.93
+LSTM,18.77,17.36,20.15,142.75,126.84,160.74
+GRU,19.41,18.0,20.79,120.94,108.23,135.57

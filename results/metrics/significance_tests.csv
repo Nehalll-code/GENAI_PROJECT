@@ -1,0 +1,7 @@
+model_a,model_b,only_a_correct,only_b_correct,discordant,better,z,p_value,significant_at_0.05
+Simple RNN,Bidirectional RNN,128,150,278,Bidirectional RNN,1.259,0.20785,False
+Simple RNN,LSTM,121,151,272,LSTM,1.758,0.07868,False
+Simple RNN,GRU,109,159,268,GRU,2.993,0.00276,True
+Bidirectional RNN,LSTM,151,159,310,LSTM,0.398,0.69094,False
+Bidirectional RNN,GRU,142,170,312,GRU,1.529,0.12637,False
+LSTM,GRU,92,112,204,GRU,1.33,0.18343,False

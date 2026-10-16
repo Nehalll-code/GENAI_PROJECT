@@ -15,8 +15,10 @@ os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "2")  # quieten TensorFlow banners
 
 import pandas as pd
 
+import baselines
 import data
 import evaluate
+import significance
 import train
 from config import METRICS_DIR
 
@@ -25,13 +27,19 @@ def main() -> None:
     started = time.perf_counter()
 
     print("=" * 78)
-    print("STEP 1/4  Dataset preparation and characterisation")
+    print("STEP 1/6  Dataset preparation and characterisation")
     print("=" * 78)
     prepared = data.prepare(verbose=True)
 
     print()
     print("=" * 78)
-    print("STEP 2/4  Training the four models under identical conditions")
+    print("STEP 2/6  Classical baselines on the same test split")
+    print("=" * 78)
+    baselines.run(prepared, verbose=True)
+
+    print()
+    print("=" * 78)
+    print("STEP 3/6  Training the four models under identical conditions")
     print("=" * 78)
     training = train.train_all(prepared)
     results = training["results"]
@@ -39,13 +47,19 @@ def main() -> None:
 
     print()
     print("=" * 78)
-    print("STEP 3/4  Temperature sweep and text-quality scoring")
+    print("STEP 4/6  Are the differences statistically real?")
+    print("=" * 78)
+    significance.run(prepared, verbose=True)
+
+    print()
+    print("=" * 78)
+    print("STEP 5/6  Temperature sweep and text-quality scoring")
     print("=" * 78)
     quality = evaluate.run_generation_sweep(training["models"], prepared)
 
     print()
     print("=" * 78)
-    print("STEP 4/4  Figures")
+    print("STEP 6/6  Figures")
     print("=" * 78)
     evaluate.make_all_figures(prepared, results, history, quality)
 

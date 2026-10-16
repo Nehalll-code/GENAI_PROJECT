@@ -1,0 +1,3 @@
+model,test_perplexity
+Uniform over the vocabulary,1496.0
+Unigram (word frequency only),270.8

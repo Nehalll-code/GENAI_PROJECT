@@ -23,5 +23,5 @@
     "random_seed": 42,
     "vocabulary_size": 1496
   },
-  "total_training_time_s": 514.76
+  "total_training_time_s": 511.6
 }

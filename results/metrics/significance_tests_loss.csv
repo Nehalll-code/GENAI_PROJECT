@@ -1,0 +1,7 @@
+model_a,model_b,mean_loss_difference,diff_ci_low,diff_ci_high,perplexity_ratio_a_over_b,better,z,p_value,significant_at_0.05
+Simple RNN,Bidirectional RNN,-0.0223,-0.0563,0.0111,0.978,Simple RNN,-1.33,0.184525,False
+Simple RNN,LSTM,-0.025,-0.0612,0.0113,0.975,Simple RNN,-1.39,0.166047,False
+Simple RNN,GRU,0.1408,0.1083,0.1722,1.151,GRU,8.71,0.0,True
+Bidirectional RNN,LSTM,-0.0027,-0.0407,0.0346,0.997,Bidirectional RNN,-0.15,0.884166,False
+Bidirectional RNN,GRU,0.1631,0.1303,0.1968,1.177,GRU,9.92,0.0,True
+LSTM,GRU,0.1658,0.1374,0.195,1.18,GRU,11.69,0.0,True
